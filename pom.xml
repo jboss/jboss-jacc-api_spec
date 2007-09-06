@@ -16,14 +16,14 @@
   <description>The Java Authorization Contract for Containers 1.1 API classes</description>
   <dependencies>
     <dependency>
-      <groupId>jboss</groupId>
+      <groupId>org.jboss</groupId>
       <artifactId>jboss-common-core</artifactId>
-      <version>2.0.2.GA</version>
+      <version>2.2.1.GA</version>
     </dependency>
     <dependency>
-      <groupId>sun-servlet</groupId>
-      <artifactId>servlet-api</artifactId>
-      <version>2.4</version>
+      <groupId>org.jboss.javaee</groupId>
+      <artifactId>jboss-servlet-api</artifactId>
+      <version>2.5-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
