@@ -22,7 +22,7 @@
     <dependency>
       <groupId>org.jboss.javaee</groupId>
       <artifactId>jboss-servlet-api</artifactId>
-      <version>2.6-SNAPSHOT</version>
+      <version>2.5-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
