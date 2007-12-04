@@ -385,6 +385,39 @@ public final class EJBMethodPermission
       return implies;
    } 
 
+   /** Method string represented by this permission 	 
+    * @return [methodInterface :] methodName (params) 	 
+    */ 	 
+   public String toString() 	 
+   { 	 
+      StringBuffer tmp = new StringBuffer(super.toString()); 	 
+      tmp.append('['); 	 
+      if( methodInterface != null ) 	 
+      { 	 
+         tmp.append(methodInterface); 	 
+         tmp.append(':'); 	 
+      } 	 
+      else 	 
+      { 	 
+         tmp.append("*:"); 	 
+      } 	 
+      if( methodName != null ) 	 
+      { 	 
+         tmp.append(methodName); 	 
+      } 	 
+      else 	 
+      { 	 
+         tmp.append("*"); 	 
+      } 	 
+      tmp.append('('); 	 
+      if( methodSig != null ) 	 
+      { 	 
+         tmp.append(methodSig); 	 
+      } 	 
+      tmp.append(")]"); 	 
+      return tmp.toString(); 	 
+   }
+
    private static String[] convertParameters(Class[] params)
    {
       ArrayList tmp = new ArrayList();

@@ -130,4 +130,12 @@ public final class EJBRoleRefPermission
    {
       return equals(p);
    } 
+
+   /** 	 
+    * Returns a string describing this Permission. 	 
+    */ 	 
+   public String toString() 	 
+   { 	 
+      return "[" + getName() + ",role-ref=" + actions + "]"; 	 
+   }
 }
