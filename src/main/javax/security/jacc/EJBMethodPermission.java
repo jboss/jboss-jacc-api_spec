@@ -377,7 +377,7 @@ public final class EJBMethodPermission
          implies = methodInterface.equals(perm.methodInterface);
       }
       // Check the method signature
-      if( implies == true && methodSig != null && !methodSig.equals("") )
+      if( implies == true && methodSig != null )
       {
          implies = methodSig.equals(perm.methodSig);
       }      
