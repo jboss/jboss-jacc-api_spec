@@ -2,13 +2,13 @@
   <parent>
     <groupId>org.jboss.javaee</groupId>
     <artifactId>jboss-javaee-parent</artifactId>
-    <version>5.0.0.GA</version>
+    <version>5.1.0-SNAPSHOT</version>
     <relativePath>../build/pom.xml</relativePath>
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jboss.javaee</groupId>
   <artifactId>jboss-jacc-api</artifactId>
-  <version>1.1.0.GA</version>
+  <version>1.1.1-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>JBoss JACC 1.1 API</name>
   <url>http://www.jboss.org</url>
@@ -21,7 +21,7 @@
     <dependency>
       <groupId>org.jboss.javaee</groupId>
       <artifactId>jboss-servlet-api</artifactId>
-      <version>2.5.0.GA</version>
+      <version>2.5.1-SNAPSHOT</version>
     </dependency>
   </dependencies>
 </project>
