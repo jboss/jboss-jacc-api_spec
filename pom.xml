@@ -7,12 +7,12 @@
   </parent>
   <modelVersion>4.0.0</modelVersion>
   <groupId>org.jboss.javaee</groupId>
-  <artifactId>jboss-jacc-api_1.3</artifactId>
+  <artifactId>jboss-jacc-api_1.1</artifactId>
   <version>1.0-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>JACC 1.3 API</name>
+  <name>JACC 1.1 API</name>
   <url>http://www.jboss.org</url>
-  <description>The Java Authorization Contract for Containers 1.3 API classes</description>
+  <description>The Java Authorization Contract for Containers 1.1 API classes</description>
   <dependencies>
     <dependency>
       <groupId>org.jboss</groupId>
