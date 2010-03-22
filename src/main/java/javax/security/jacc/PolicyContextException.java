@@ -1,54 +1,99 @@
 /*
-* JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
-* by the @authors tag. See the copyright.txt in the distribution for a
-* full listing of individual contributors.
-*
-* This is free software; you can redistribute it and/or modify it
-* under the terms of the GNU Lesser General Public License as
-* published by the Free Software Foundation; either version 2.1 of
-* the License, or (at your option) any later version.
-*
-* This software is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this software; if not, write to the Free
-* Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-* 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-*/
+ * JBoss, Home of Professional Open Source. Copyright 2010, Red Hat Middleware
+ * LLC, and individual contributors as indicated by the @author tags. See the
+ * copyright.txt file in the distribution for a full listing of individual
+ * contributors.
+ * 
+ * This is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this software; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
+ * site: http://www.fsf.org.
+ */
 package javax.security.jacc;
 
-/** This checked exception is thrown by the policy context and configuration
- * classes.
+/**
+ * <p>
+ * This checked exception is thrown by implementations of the {@code javax.security.jacc.PolicyConfiguration} interface,
+ * the {@code javax.security.jacc.PolicyConfigurationFactory} abstract class, the {@code
+ * javax.security.jacc.PolicyContext} utility class, and implementations of the {@code
+ * javax.security.jacc.PolicyContextException} interface.
+ * </p>
  * 
- * @see http://java.sun.com/j2ee/1.4/docs/api/
- * @see javax.security.jacc.PolicyConfiguration
- * @see javax.security.jacc.PolicyConfigurationFactory
- * @see javax.security.jacc.PolicyContext
+ * <p>
+ * This exception is used by javax.security.jacc implementation classes to re-throw checked exceptions occurring within
+ * an implementation that are not declared by the interface or class being implemented.
+ * </p>
  * 
- * @author Scott.Stark@jboss.org
- * @author Ron Monzillo, Gary Ellison (javadoc)
- * @version $Revision$
+ * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
+ * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
+ * @see {@link Exception}, {@link PolicyConfiguration}, {@link PolicyConfigurationFactory}, {@link PolicyContext},
+ *      {@link PolicyContextHandler}
  */
 public class PolicyContextException extends Exception
 {
+   private static final long serialVersionUID = 3925692572777572935L;
+
+   /**
+    * <p>
+    * Constructs a new PolicyContextException with null as its detail message. describing the cause of the exception.
+    * </p>
+    */
    public PolicyContextException()
    {
    }
 
+   /**
+    * <p>
+    * Constructs a new {@code PolicyContextException} with the specified detail message.
+    * </p>
+    * 
+    * @param msg
+    *           - a {@code String} containing a detail message describing the cause of the exception.
+    */
    public PolicyContextException(String msg)
    {
       super(msg);
    }
 
+   /**
+    * <p>
+    * Constructs a new {@code PolicyContextException} with the specified detail message and cause. The cause will be
+    * encapsulated in the constructed exception.
+    * </p>
+    * 
+    * @param msg
+    *           - a {@code String} containing a detail message describing the cause of the exception.
+    * @param cause
+    *           - the {@code Throwable} that is “causing” this exception to be constructed. A null value is permitted,
+    *           and the value passed through this parameter may subsequently be retrieved by calling {@code getCause()}
+    *           on the constructed exception.
+    */
    public PolicyContextException(String msg, Throwable cause)
    {
       super(msg, cause);
    }
 
+   /**
+    * <p>
+    * Constructs a new {@code PolicyContextException} with the specified cause. The cause will be encapsulated in the
+    * constructed exception.
+    * </p>
+    * 
+    * @param cause
+    *           - the {@code Throwable} that is “causing” this exception to be constructed. A null value is permitted,
+    *           and the value passed through this parameter may subsequently be retrieved by calling {@code getCause()}
+    *           on the constructed exception.
+    */
    public PolicyContextException(Throwable cause)
    {
       super(cause);

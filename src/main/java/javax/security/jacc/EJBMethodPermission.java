@@ -1,59 +1,64 @@
 /*
-* JBoss, Home of Professional Open Source
-* Copyright 2005, JBoss Inc., and individual contributors as indicated
-* by the @authors tag. See the copyright.txt in the distribution for a
-* full listing of individual contributors.
-*
-* This is free software; you can redistribute it and/or modify it
-* under the terms of the GNU Lesser General Public License as
-* published by the Free Software Foundation; either version 2.1 of
-* the License, or (at your option) any later version.
-*
-* This software is distributed in the hope that it will be useful,
-* but WITHOUT ANY WARRANTY; without even the implied warranty of
-* MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the GNU
-* Lesser General Public License for more details.
-*
-* You should have received a copy of the GNU Lesser General Public
-* License along with this software; if not, write to the Free
-* Software Foundation, Inc., 51 Franklin St, Fifth Floor, Boston, MA
-* 02110-1301 USA, or see the FSF site: http://www.fsf.org.
-*/
+ * JBoss, Home of Professional Open Source. Copyright 2010, Red Hat Middleware
+ * LLC, and individual contributors as indicated by the @author tags. See the
+ * copyright.txt file in the distribution for a full listing of individual
+ * contributors.
+ * 
+ * This is free software; you can redistribute it and/or modify it under the
+ * terms of the GNU Lesser General Public License as published by the Free
+ * Software Foundation; either version 2.1 of the License, or (at your option)
+ * any later version.
+ * 
+ * This software is distributed in the hope that it will be useful, but WITHOUT
+ * ANY WARRANTY; without even the implied warranty of MERCHANTABILITY or FITNESS
+ * FOR A PARTICULAR PURPOSE. See the GNU Lesser General Public License for more
+ * details.
+ * 
+ * You should have received a copy of the GNU Lesser General Public License
+ * along with this software; if not, write to the Free Software Foundation,
+ * Inc., 51 Franklin St, Fifth Floor, Boston, MA 02110-1301 USA, or see the FSF
+ * site: http://www.fsf.org.
+ */
 package javax.security.jacc;
 
-import java.io.Serializable;
-import java.io.ObjectStreamField;
-import java.io.ObjectInputStream;
 import java.io.IOException;
+import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+import java.io.ObjectStreamField;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import java.security.Permission;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 
 import org.jboss.util.id.SerialVersion;
 
-/** A security permission for ejb-method permissions.  The name of an
- * EJBMethodPermission contains the value of the ejb-name element in the
- * application's deployment descriptor that identifies the target EJB.
+/**
+ * <p>
+ * Class for EJB method permissions.
+ * </p>
  * 
- * The actions of an EJBMethodPermission identifies the methods of the EJB to
- * which the permission applies.
+ * <p>
+ * The name of an EJBMethodPermission contains the value of the ejb-name element in the application’s deployment
+ * descriptor that identifies the target EJB.
+ * </p>
  * 
- * Implementations of this class MAY implement newPermissionCollection or
- * inherit its implementation from the super class. 
+ * <p>
+ * The actions of an EJBMethodPermission identifies the methods of the EJB to which the permission applies.
+ * </p>
  * 
- * @link http://java.sun.com/j2ee/1.4/docs/api/
+ * <p>
+ * Implementations of this class MAY implement newPermissionCollection or inherit its implementation from the super
+ * class.
+ * </p>
  * 
- * @author Scott.Stark@jboss.org
- * @author Ron Monzillo, Gary Ellison (javadoc)
- * @version $Revision$
+ * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
+ * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
+ * @see {@link Permission}
  */
-public final class EJBMethodPermission
-   extends Permission
-   implements Serializable
+public final class EJBMethodPermission extends Permission implements Serializable
 {
-   /** @since 4.0.2 */
    private static final long serialVersionUID;
    static
    {
@@ -66,72 +71,86 @@ public final class EJBMethodPermission
    /**
     * @serialField actions String the actions string.
     */
-    private static final ObjectStreamField[] serialPersistentFields = { 
-        new ObjectStreamField("actions", String.class)
-    };
+   private static final ObjectStreamField[] serialPersistentFields = {new ObjectStreamField("actions", String.class)};
 
    private transient String methodName;
+
    private transient String methodInterface;
+
    private transient String methodSig;
 
-   /** Creates a new EJBMethodPermission with the specified name and actions.
-
-    The name contains the value of the ejb-name element corresponding to an EJB
-    in the application's deployment descriptor.
-
-    The actions contains a methodSpec. The syntax of the actions parameter is
-    defined as follows:
-
-    methodNameSpec ::= methodName | emptyString
-
-    methodInterfaceName ::= String
-
-    methodInterfaceSpec ::= methodInterfaceName | emptyString
-
-    typeName ::= typeName | typeName []
-
-    methodParams ::= typeName | methodParams comma typeName
-
-    methodParamsSpec ::= emptyString | methodParams
-
-    methodSpec ::= null |
-    methodNameSpec |
-    methodNameSpec comma methodInterfaceName |
-    methodNameSpec comma methodInterfaceSpec comma methodParamsSpec
- 
-
-    A MethodInterfaceName is a non-empty String and should contain a method-intf
-    value as defined for use in EJB deployment descriptors. An implementation
-    must be flexible such that it supports additional interface names especially
-    if they are standardized by the EJB Specification. The EJB Specification
-    currently defines the following method-intf values:
-
-    { "Home", "LocalHome", "Remote", "Local", "ServiceEndpoint" }
- 
-
-    A null or empty string methodSpec indicates that the permission applies to
-    all methods of the EJB. A methodSpec with a methodNameSpec of the empty
-    string matches all methods of the EJB that match the methodInterface and
-    methodParams elements of the methodSpec.
-
-    A methodSpec with a methodInterfaceSpec of the empty string matches all
-    methods of the EJB that match the methodNameSpec and methodParamsSpec
-    elements of the methodSpec.
-
-    A methodSpec without a methodParamsSpec matches all methods of the EJB that
-    match the methodNameSpec and methodInterface elements of the methodSpec.
-
-    The order of the typeNames in methodParams array must match the order of
-    occurence of the corresponding parameters in the method signature of the
-    target method(s). Each typeName in the methodParams must contain the
-    canonical form of the corresponding parameter's typeName as defined by the
-    getActions method. A methodSpec with an empty methodParamsSpec matches all
-    0 argument methods of the EJB that match the methodNameSpec and
-    methodInterfaceSpec elements of the methodSpec.
-
-    * @param name - the ejb-name to which the permission pertains.
-    * @param actions - identifies the methods of the EJB to which the permission
-    * pertains.
+   /**
+    * <p>
+    * Creates a new EJBMethodPermission with the specified name and actions.
+    * </p>
+    * 
+    * <p>
+    * The name contains the value of the ejb-name element corresponding to an EJB in the application's deployment
+    * descriptor.
+    * </p>
+    * 
+    * <p>
+    * The actions contains a methodSpec. The syntax of the actions parameter is defined as follows:
+    * </p>
+    * 
+    * <pre>
+    * methodNameSpec ::= methodName | emptyString
+    * 
+    * methodInterfaceName ::= String
+    * 
+    * methodInterfaceSpec ::= methodInterfaceName | emptyString
+    * 
+    * typeName ::= typeName | typeName []
+    * 
+    * methodParams ::= typeName | methodParams comma typeName
+    * 
+    * methodParamsSpec ::= emptyString | methodParams
+    * 
+    * methodSpec ::= null | methodNameSpec | methodNameSpec comma
+    * methodInterfaceName | methodNameSpec comma methodInterfaceSpec comma
+    * methodParamsSpec
+    * </pre>
+    * 
+    * <p>
+    * A MethodInterfaceName is a non-empty String and should contain a method-intf value as defined for use in EJB
+    * deployment descriptors. An implementation must be flexible such that it supports additional interface names
+    * especially if they are standardized by the EJB Specification. The EJB Specification currently defines the
+    * following method-intf values:
+    * </p>
+    * 
+    * <pre>
+    * 
+    * {&quot;Home&quot;, &quot;LocalHome&quot;, &quot;Remote&quot;, &quot;Local&quot;, &quot;ServiceEndpoint&quot;}
+    * </pre>
+    * 
+    * <p>
+    * A null or empty string methodSpec indicates that the permission applies to all methods of the EJB. A methodSpec
+    * with a methodNameSpec of the empty string matches all methods of the EJB that match the methodInterface and
+    * methodParams elements of the methodSpec.
+    * </p>
+    * 
+    * <p>
+    * A methodSpec with a methodInterfaceSpec of the empty string matches all methods of the EJB that match the
+    * methodNameSpec and methodParamsSpec elements of the methodSpec.
+    * </p>
+    * 
+    * <p>
+    * A methodSpec without a methodParamsSpec matches all methods of the EJB that match the methodNameSpec and
+    * methodInterface elements of the methodSpec.
+    * </p>
+    * 
+    * <p>
+    * The order of the typeNames in methodParams array must match the order of occurrence of the corresponding
+    * parameters in the method signature of the target method(s). Each typeName in the methodParams must contain the
+    * canonical form of the corresponding parameter's typeName as defined by the getActions method. A methodSpec with an
+    * empty methodParamsSpec matches all 0 argument methods of the EJB that match the methodNameSpec and
+    * methodInterfaceSpec elements of the methodSpec.
+    * </p>
+    * 
+    * @param name
+    *           - the ejb-name to which the permission pertains.
+    * @param actions
+    *           - identifies the methods of the EJB to which the permission pertains.
     */
    public EJBMethodPermission(String name, String actions)
    {
@@ -139,113 +158,127 @@ public final class EJBMethodPermission
       parseMethodSpec(actions);
    }
 
-   /** Creates a new EJBMethodPermission with name corresponding to the EJBName
-    * and actions composed from methodInterface, and the Method object.
+   /**
+    * <p>
+    * Creates a new EJBMethodPermission with name corresponding to the EJBName and actions composed from
+    * methodInterface, and the Method object.
+    * </p>
     * 
-    * A container uses this constructor prior to checking if a caller has
-    * permission to call the method of an EJB.
+    * <p>
+    * A container uses this constructor prior to checking if a caller has permission to call the method of an EJB.
+    * </p>
     * 
-    * @param ejbName - the ejb-name of the target EJB
-    * @param methodInterface - A string that may be used to specify the EJB
-    * interface to which the permission pertains. A value of null or "",
-    * indicates that the permission pertains to all methods that match the other
-    * parameters of the permission specification without consideration of the
-    * interface they occur on.
-    * @param method - an instance of the Java.lang.reflect.Method class
-    * corresponding to the method that the container is trying to determine
-    * whether the caller has permission to access. This value must not be null.
+    * @param ejbName
+    *           - The string representation of the name of the EJB as it appears in the corresponding ejb-name element
+    *           in the deployment descriptor.
+    * @param methodInterface
+    *           - A string that may be used to specify the EJB interface to which the permission pertains. A value of
+    *           null or "", indicates that the permission pertains to all methods that match the other parameters of the
+    *           permission specification without consideration of the interface they occur on.
+    * @param method
+    *           - an instance of the Java.lang.reflect.Method class corresponding to the method that the container is
+    *           trying to determine whether the caller has permission to access. This value must not be null.
     */
    public EJBMethodPermission(String ejbName, String methodInterface, Method method)
    {
-      this(ejbName, method.getName(), methodInterface,
-         convertParameters(method.getParameterTypes()));
+      this(ejbName, method.getName(), methodInterface, convertParameters(method.getParameterTypes()));
    }
 
-   /** Creates a new EJBMethodPermission with name corresponding to the EJBName
-    * and actions composed from methodName, methodInterface, and methodParams.
+   /**
+    * <p>
+    * Creates a new EJBMethodPermission with name corresponding to the EJBName and actions composed from methodName,
+    * methodInterface, and methodParams.
+    * </p>
     * 
-    * @param ejbName - the ejb-name of the target EJB
-    * @param methodName - A string that may be used to indicate the method of the
-    * EJB to which the permission pertains. A value of null or "" indicates that
-    * the permission pertains to all methods that match the other parameters of
-    * the permission specification without consideration of method name.
-    * @param methodInterface - A string that may be used to specify the EJB
-    * interface to which the permission pertains. A value of null or "",
-    * indicates that the permission pertains to all methods that match the
-    * other parameters of the permission specification without consideration of
-    * the interface they occur on.
-    * @param methodParams - An array of strings that may be used to specify
-    * (by typeNames) the parameter signature of the target methods. The order of
-    * the typeNames in methodParams array must match the order of occurence of
-    * the corresponding parameters in the method signature of the target
-    * method(s). Each typeName in the methodParams array must contain the
-    * canonical form of the corresponding parameter's typeName as defined by the
-    * getActions method. An empty methodParams array is used to represent a
-    * method signature with no arguments. A value of null indicates that the
-    * permission pertains to all methods that match the other parameters of the
-    * permission specification without consideration of method signature.
+    * @param ejbName
+    *           - The string representation of the name of the EJB as it appears in the corresponding ejb-name element
+    *           in the deployment descriptor.
+    * @param methodName
+    *           - A string that may be used to indicate the method of the EJB to which the permission pertains. A value
+    *           of null or "" indicates that the permission pertains to all methods that match the other parameters of
+    *           the permission specification without consideration of method name.
+    * @param methodInterface
+    *           - A string that may be used to specify the EJB interface to which the permission pertains. A value of
+    *           null or "", indicates that the permission pertains to all methods that match the other parameters of the
+    *           permission specification without consideration of the interface they occur on.
+    * @param methodParams
+    *           - An array of strings that may be used to specify (by typeNames) the parameter signature of the target
+    *           methods. The order of the typeNames in methodParams array must match the order of occurrence of the
+    *           corresponding parameters in the method signature of the target method(s). Each typeName in the
+    *           methodParams array must contain the canonical form of the corresponding parameter's typeName as defined
+    *           by the getActions method. An empty methodParams array is used to represent a method signature with no
+    *           arguments. A value of null indicates that the permission pertains to all methods that match the other
+    *           parameters of the permission specification without consideration of method signature.
     */
-   public EJBMethodPermission(String ejbName, String methodName,
-      String methodInterface, String[] methodParams)
+   public EJBMethodPermission(String ejbName, String methodName, String methodInterface, String[] methodParams)
    {
       super(ejbName);
       this.methodInterface = methodInterface;
       this.methodName = methodName;
-      if( methodParams == null )
+      if (methodParams == null)
          methodSig = null;
       else
       {
          StringBuffer tmp = new StringBuffer();
-         for(int n = 0; n < methodParams.length; n ++)
+         for (String methodParam : methodParams)
          {
-            tmp.append(methodParams[n]);
+            tmp.append(methodParam);
             tmp.append(',');
          }
-         if( tmp.length() > 0 )
-            tmp.setLength(tmp.length()-1);
+         if (tmp.length() > 0)
+            tmp.setLength(tmp.length() - 1);
          methodSig = tmp.toString();
       }
    }
 
-   /** Compare two EJBMethodPermissions.
+   /**
+    * <p>
+    * Checks two EJBMethodPermission objects for equality. EJBMethodPermission objects are equivalent if they have case
+    * sensitive equivalent name and actions values.
+    * </p>
     * 
-    * @param p the EJBMethodPermission instance to compare against
-    * @return true if p equates to this permission, false otherwise
+    * <p>
+    * Two Permission objects, P1 and P2, are equivalent if and only if P1.implies(P2) && P2.implies(P1).
+    * </p>
+    * 
+    * @param o
+    *           - The EJBMethodPermission object being tested for equality with this EJBMethodPermission
+    * @return true if the argument EJBMethodPermission object is equivalent to this EJBMethodPermission.
     */
-   public boolean equals(Object p)
+   @Override
+   public boolean equals(Object o)
    {
       boolean equals = false;
-      if( p == null || !(p instanceof EJBMethodPermission) )
+      if (o == null || !(o instanceof EJBMethodPermission))
          return false;
-      EJBMethodPermission perm = (EJBMethodPermission) p;
+      EJBMethodPermission perm = (EJBMethodPermission) o;
       equals = getName().equals(perm.getName());
-      if( equals == true )
+      if (equals == true)
       {
          // Check the method names
-         if( methodName != null )
+         if (methodName != null)
          {
-            if( perm.methodName == null )
+            if (perm.methodName == null)
                return false;
-            if( methodName.equals(perm.methodName) == false )
+            if (methodName.equals(perm.methodName) == false)
                return false;
          }
-         else if( perm.methodName != null )
+         else if (perm.methodName != null)
          {
             return false;
          }
 
          // Check the method interfaces
          equals = methodInterface != perm.methodInterface;
-         if( equals == false && methodInterface != null )
+         if (equals == false && methodInterface != null)
             equals = methodInterface.equals(perm.methodInterface);
-         if( equals == false )
+         if (equals == false)
             return false;
 
          // Check the method parameters
-         if( methodSig != null )
+         if (methodSig != null)
          {
-            equals = perm.methodSig != null &&
-               methodSig.equals(perm.methodSig);
+            equals = perm.methodSig != null && methodSig.equals(perm.methodSig);
          }
          else
          {
@@ -255,116 +288,147 @@ public final class EJBMethodPermission
       return equals;
    }
 
-   /** Calculates the hash code as the hash of the methodName,
-    *    methodInterface and methodSig for each that is non-null.
-    * @return has the method represented.
-    */ 
+   /**
+    * <p>
+    * Returns the hash code value for this EJBMethodPermission. The properties of the returned hash code must be as
+    * follows:
+    * <ul>
+    * <li>During the lifetime of a Java application, the hashCode method must return the same integer value every time
+    * it is called on a EJBMethodPermission object. The value returned by hashCode for a particular EJBMethodPermission
+    * need not remain consistent from one execution of an application to another.</li>
+    * <li>If two EJBMethodPermission objects are equal according to the equals method, then calling the hash- Code
+    * method on each of the two Permission objects must produce the same integer result (within an application).</li>
+    * </ul>
+    * </p>
+    * 
+    * @return the integer hash code value for this object.
+    */
+   @Override
    public int hashCode()
    {
       int hashCode = 0;
-      if( methodName != null )
+      if (methodName != null)
          hashCode += methodName.hashCode();
-      if( methodInterface != null )
+      if (methodInterface != null)
          hashCode += methodInterface.hashCode();
-      if( methodSig != null )
+      if (methodSig != null)
          hashCode += methodSig.hashCode();
       return hashCode;
    }
 
-   /** Returns a String containing a canonical representation of the actions of
-    this EJBMethodPermission. The Canonical form of the actions of an
-    EJBMethodPermission is described by the following syntax description.
-
-    methodNameSpec ::= methodName | emptyString
-    methodInterfaceName ::= String
-    methodInterfaceSpec ::= methodInterfaceName | emptyString
-    typeName ::= typeName | typeName []
-    methodParams ::= typeName | methodParams comma typeName
-    methodParamsSpec ::= emptyString | methodParams
-    methodSpec ::= null |
-    methodName |
-    methodNameSpec comma methodInterfaceName |
-    methodNameSpec comma methodInterfaceSpec comma methodParamsSpec
- 
-
-    The canonical form of each typeName must begin with the fully qualified Java
-    name of the corresponding parameter's type. The canonical form of a typeName
-    for an array parameter is the fully qualified Java name of the array's
-    component type followed by as many instances of the string "[]" as there are
-    dimensions to the array. No additional characters (e.g. blanks) may occur in
-    the canonical form.
-
-    A MethodInterfaceName is a non-empty String and should contain a method-intf
-    value as defined for use in EJB deployment descriptors. An implementation
-    must be flexible such p it supports additional interface names especially
-    if they are standardized by the EJB Specification. The EJB Specification
-    currently defines the following method-intf values:
-    { "Home", "LocalHome", "Remote", "Local", "ServiceEndpoint" }
- 
-    @return the canonicalized actions of this EJBMethodPermission
+   /**
+    * <p>
+    * Returns a String containing a canonical representation of the actions of this EJBMethodPermission. The Canonical
+    * form of the actions of an EJBMethodPermission is described by the following syntax description.
+    * </p>
+    * 
+    * <pre>
+    * methodNameSpec ::= methodName | emptyString
+    * 
+    * methodInterfaceName ::= String
+    * 
+    * methodInterfaceSpec ::= methodInterfaceName | emptyString
+    * 
+    * typeName ::= typeName | typeName []
+    * 
+    * methodParams ::= typeName | methodParams comma typeName
+    * 
+    * methodParamsSpec ::= emptyString | methodParams
+    * 
+    * methodSpec ::= null |
+    *      methodName |
+    *      methodNameSpec comma methodInterfaceName |
+    *      methodNameSpec comma methodInterfaceSpec comma methodParamsSpec
+    * </pre>
+    * 
+    * <p>
+    * The canonical form of each typeName must begin with the fully qualified Java name of the corresponding parameter's
+    * type. The canonical form of a typeName for an array parameter is the fully qualified Java name of the array's
+    * component type followed by as many instances of the string "[]" as there are dimensions to the array. No
+    * additional characters (e.g. blanks) may occur in the canonical form.
+    * </p>
+    * 
+    * <p>
+    * A MethodInterfaceName is a non-empty String and should contain a method-intf value as defined for use in EJB
+    * deployment descriptors. An implementation must be flexible such p it supports additional interface names
+    * especially if they are standardized by the EJB Specification. The EJB Specification currently defines the
+    * following method-intf values: { "Home", "LocalHome", "Remote", "Local", "ServiceEndpoint" }
+    * </p>
+    * 
+    * @return a String containing the canonicalized actions of this EJBMethodPermission.
     */
+   @Override
    public String getActions()
    {
       StringBuffer actions = new StringBuffer();
-      if( methodName != null )
+      if (methodName != null)
          actions.append(methodName);
-      if( methodInterface != null )
+      if (methodInterface != null)
       {
          actions.append(',');
          actions.append(methodInterface);
       }
-      else if( methodSig != null )
+      else if (methodSig != null)
       {
-         actions.append(',');         
+         actions.append(',');
       }
 
-      if( methodSig != null )
+      if (methodSig != null)
       {
          actions.append(',');
          actions.append(methodSig);
       }
       String methodSpec = null;
-      if( actions.length() > 0 )
+      if (actions.length() > 0)
          methodSpec = actions.toString();
       return methodSpec;
    }
 
-   /** Determines if the argument Permission is "implied by" this
-    * EJBMethodPermission. For this to be the case the following must apply:
-    * The argument must be an instanceof EJBMethodPermission
-    * with name equivalent to p of this EJBMethodPermission, and
-    * the methods to which the argument permission applies (as defined in its actions)
-    * must be a subset of the methods to which this EJBMethodPermission applies
-    * (as defined in its actions). 
-    *
-    * The argument permission applies to a subset of the methods to which this
-    * permission applies if all of the following conditions are met:
-    * - the method name component of the methodNameSpec of this permission is null,
-    * the empty string, or equivalent to the method name of the argument permission
-    * - the method interface component of the methodNameSpec of this permission
-    * is null, the empty string, or equivalent to the method interface of the
-    * argument permission
-    * - the method parameter list component of the methodNameSpec of this
-    * permission is null, the empty string, or equivalent to the method
-    * parameter list of the argument permission.
+   /**
+    * <p>
+    * Determines if the argument Permission is "implied by" this EJBMethodPermission. For this to be the case,
+    * <ul>
+    * <li>The argument must be an instance of EJBMethodPermission</li>
+    * <li>with name equivalent to that of this EJBMethodPermission, and</li>
+    * <li>the methods to which the argument permission applies (as defined in its actions) must be a subset of the
+    * methods to which this EJBMethodPermission applies (as defined in its actions).</li>
+    * </ul>
+    * </p>
     * 
-    * The name and actions comparisons described above are case sensitive. 
+    * <p>
+    * The argument permission applies to a subset of the methods to which this permission applies if all of the
+    * following conditions are met:
+    * <ul>
+    * <li>the method name component of the methodNameSpec of this permission is null, the empty string, or equivalent to
+    * the method name of the argument permission, and</li>
+    * <li>the method interface component of the methodNameSpec of this permission is null, the empty string, or
+    * equivalent to the method interface of the argument permission, and</li>
+    * <li>the method parameter list component of the methodNameSpec of this permission is null, the empty string, or
+    * equivalent to the method parameter list of the argument permission.</li>
+    * </ul>
+    * </p>
     * 
-    * @param p the EJBMethodPermission checked to see if it this.
-    * @return true if the specified permission is implied by this object, false if not
+    * <p>
+    * The name and actions comparisons described above are case sensitive.
+    * </p>
+    * 
+    * @param permission
+    *           - “this” EJBMethodPermission is checked to see if it implies the argument permission.
+    * @return true if the specified permission is implied by this object, false if not.
     */
-   public boolean implies(Permission p)
+   @Override
+   public boolean implies(Permission permission)
    {
       boolean implies = false;
-      if( p == null || !(p instanceof EJBMethodPermission) )
+      if (permission instanceof EJBMethodPermission == false)
          return false;
-      EJBMethodPermission perm = (EJBMethodPermission) p;
+      EJBMethodPermission perm = (EJBMethodPermission) permission;
       implies = getName().equals(perm.getName());
-      if( implies == false )
+      if (implies == false)
          return false;
 
-      // See if perm is a subset of the method names
-      if( methodName != null )
+      // See if permission is a subset of the method names
+      if (methodName != null)
       {
          implies = methodName.equals(perm.methodName);
       }
@@ -372,65 +436,81 @@ public final class EJBMethodPermission
          implies = true;
 
       // Check the method interface
-      if( implies == true && methodInterface != null )
+      if (implies == true && methodInterface != null)
       {
          implies = methodInterface.equals(perm.methodInterface);
       }
       // Check the method signature
-      if( implies == true && methodSig != null )
+      if (implies == true && methodSig != null)
       {
          implies = methodSig.equals(perm.methodSig);
-      }      
+      }
 
       return implies;
-   } 
-
-   /** Method string represented by this permission 	 
-    * @return [methodInterface :] methodName (params) 	 
-    */ 	 
-   public String toString() 	 
-   { 	 
-      StringBuffer tmp = new StringBuffer(super.toString()); 	 
-      tmp.append('['); 	 
-      if( methodInterface != null ) 	 
-      { 	 
-         tmp.append(methodInterface); 	 
-         tmp.append(':'); 	 
-      } 	 
-      else 	 
-      { 	 
-         tmp.append("*:"); 	 
-      } 	 
-      if( methodName != null ) 	 
-      { 	 
-         tmp.append(methodName); 	 
-      } 	 
-      else 	 
-      { 	 
-         tmp.append("*"); 	 
-      } 	 
-      tmp.append('('); 	 
-      if( methodSig != null ) 	 
-      { 	 
-         tmp.append(methodSig); 	 
-      } 	 
-      tmp.append(")]"); 	 
-      return tmp.toString(); 	 
    }
 
-   private static String[] convertParameters(Class[] params)
+   /**
+    * <p>
+    * Returns the {@code String} representation of this permission, which has the following form:
+    * 
+    * <pre>
+    * [methodInterface:methodName(params)]
+    * </pre>
+    * 
+    * </p>
+    */
+   @Override
+   public String toString()
    {
-      ArrayList tmp = new ArrayList();
-      for(int p = 0; p < params.length; p++)
+      StringBuffer tmp = new StringBuffer(super.toString());
+      tmp.append('[');
+      if (methodInterface != null)
       {
-         Class c = params[p];
-         if( c.isArray() )
+         tmp.append(methodInterface);
+         tmp.append(':');
+      }
+      else
+      {
+         tmp.append("*:");
+      }
+      if (methodName != null)
+      {
+         tmp.append(methodName);
+      }
+      else
+      {
+         tmp.append("*");
+      }
+      tmp.append('(');
+      if (methodSig != null)
+      {
+         tmp.append(methodSig);
+      }
+      tmp.append(")]");
+      return tmp.toString();
+   }
+
+   /**
+    * <p>
+    * Converts the specified method parameter classes to {@code String}.
+    * </p>
+    * 
+    * @param params
+    *           - the array of classes to be converted.
+    * @return a {@code String[]} containing the classes names as {@code String}.
+    */
+   private static String[] convertParameters(Class<?>[] params)
+   {
+      List<String> tmp = new ArrayList<String>();
+      for (Class<?> c : params)
+      {
+         if (c.isArray())
          {
             StringBuffer sb = new StringBuffer();
-            Class subType = c.getComponentType();
+            Class<?> subType = c.getComponentType();
             sb.append(subType.getName());
             // Convert to type[][]...[]
-            while( subType != null )
+            while (subType != null)
             {
                sb.append("[]");
                subType = subType.getComponentType();
@@ -447,64 +527,70 @@ public final class EJBMethodPermission
       return sig;
    }
 
-   /** Parse the methodSpec string into methodName, methodInterface and methodSig.
-
-     The syntax of the methodSpec parameter is defined as follows:
-
-     methodNameSpec ::= methodName | emptyString
-
-     methodInterfaceName ::= String
-
-     methodInterfaceSpec ::= methodInterfaceName | emptyString
-
-     typeName ::= typeName | typeName []
-
-     methodParams ::= typeName | methodParams comma typeName
-
-     methodParamsSpec ::= emptyString | methodParams
-
-     methodSpec ::= null |
-     methodNameSpec |
-     methodNameSpec comma methodInterfaceName |
-     methodNameSpec comma methodInterfaceSpec comma methodParamsSpec
-
-    @param methodSpec the string matching the format above
-    */ 
+   /**
+    * <p>
+    * Parse the methodSpec string into methodName, methodInterface and methodSig.
+    * </p>
+    * 
+    * <p>
+    * The syntax of the methodSpec parameter is defined as follows:
+    * </p>
+    * 
+    * <pre>
+    * methodNameSpec ::= methodName | emptyString
+    * 
+    * methodInterfaceName ::= String
+    * 
+    * methodInterfaceSpec ::= methodInterfaceName | emptyString
+    * 
+    * typeName ::= typeName | typeName []
+    * 
+    * methodParams ::= typeName | methodParams comma typeName
+    * 
+    * methodParamsSpec ::= emptyString | methodParams
+    * 
+    * methodSpec ::= null | methodNameSpec | methodNameSpec comma methodInterfaceName | methodNameSpec comma
+    * methodInterfaceSpec comma methodParamsSpec
+    * </pre>
+    * 
+    * @param methodSpec
+    *           - the string matching the format above
+    */
    private void parseMethodSpec(String methodSpec)
    {
       methodName = null;
       methodInterface = null;
       methodSig = null;
 
-      if( methodSpec != null )
+      if (methodSpec != null)
       {
          StringTokenizer tokenizer = new StringTokenizer(methodSpec, ",", true);
          // Method name
-         if( tokenizer.hasMoreTokens() )
+         if (tokenizer.hasMoreTokens())
          {
             methodName = tokenizer.nextToken();
-            if( methodName.equals(",") )
+            if (methodName.equals(","))
                methodName = null;
          }
          // Method interface
-         if( tokenizer.hasMoreTokens() )
+         if (tokenizer.hasMoreTokens())
          {
             methodInterface = tokenizer.nextToken();
-            if( methodName != null && methodInterface.equals(",") )
+            if (methodName != null && methodInterface.equals(","))
                methodInterface = tokenizer.nextToken();
-            if( methodInterface.equals(",") )
+            if (methodInterface.equals(","))
             {
                methodInterface = null;
                methodSig = "";
             }
          }
          // Method args
-         if( tokenizer.hasMoreTokens() )
+         if (tokenizer.hasMoreTokens())
          {
-            if( methodInterface != null )
+            if (methodInterface != null)
                tokenizer.nextToken();
             StringBuffer tmp = new StringBuffer();
-            while( tokenizer.hasMoreTokens() )
+            while (tokenizer.hasMoreTokens())
             {
                tmp.append(tokenizer.nextToken());
             }
@@ -513,20 +599,17 @@ public final class EJBMethodPermission
       }
    }
 
-   // Private -------------------------------------------------------
-   private void readObject(ObjectInputStream ois)
-      throws ClassNotFoundException, IOException
+   private void readObject(ObjectInputStream ois) throws ClassNotFoundException, IOException
    {
       ObjectInputStream.GetField fields = ois.readFields();
       String actions = (String) fields.get("actions", null);
       parseMethodSpec(actions);
    }
 
-   private void writeObject(ObjectOutputStream oos)
-      throws IOException
+   private void writeObject(ObjectOutputStream oos) throws IOException
    {
-      ObjectOutputStream.PutField fields =  oos.putFields();
-      fields.put("actions",this.getActions());
+      ObjectOutputStream.PutField fields = oos.putFields();
+      fields.put("actions", this.getActions());
       oos.writeFields();
    }
 }
