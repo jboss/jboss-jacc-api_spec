@@ -80,9 +80,9 @@ class URLPatternSpec
    {
       if (spec == null)
          this.urlPattern = new URLPattern("/");
-      else if (spec.indexOf(WebResourcePermission.ENCODED_COLON) > 0)
+      else if (spec.indexOf(":") > 0)
       {
-         String[] patterns = spec.split(WebResourcePermission.ENCODED_COLON);
+         String[] patterns = spec.split(":");
          this.urlPatternList = new HashSet<URLPattern>();
          for (String pattern : patterns)
          {

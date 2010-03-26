@@ -386,7 +386,7 @@ public final class WebResourcePermission extends Permission implements Serializa
          uri = "";
       }
       
-      // according to the JACC specification, all colons must be escaped.
+      // according to the JACC specification, all colons within the request URI must be escaped.
       if (uri.indexOf(':') > 0)
          uri = uri.replaceAll(":", ENCODED_COLON);
       return uri;
