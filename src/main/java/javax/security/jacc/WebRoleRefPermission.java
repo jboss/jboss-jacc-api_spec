@@ -24,8 +24,6 @@ package javax.security.jacc;
 import java.io.Serializable;
 import java.security.Permission;
 
-import org.jboss.util.id.SerialVersion;
-
 /**
  * <p>
  * Class for Servlet <i>isUserInRole (String reference)</i> permissions. A WebRoleRefPermission is a named permission
@@ -54,14 +52,7 @@ import org.jboss.util.id.SerialVersion;
  */
 public final class WebRoleRefPermission extends Permission implements Serializable
 {
-   private static final long serialVersionUID;
-   static
-   {
-      if (SerialVersion.version == SerialVersion.LEGACY)
-         serialVersionUID = 141000;
-      else
-         serialVersionUID = 1;
-   }
+   private static final long serialVersionUID = 1;
 
    /** The security-role-ref/role-link value */
    private String actions;

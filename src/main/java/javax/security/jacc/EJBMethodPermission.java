@@ -32,8 +32,6 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.StringTokenizer;
 
-import org.jboss.util.id.SerialVersion;
-
 /**
  * <p>
  * Class for EJB method permissions.
@@ -59,14 +57,7 @@ import org.jboss.util.id.SerialVersion;
  */
 public final class EJBMethodPermission extends Permission implements Serializable
 {
-   private static final long serialVersionUID;
-   static
-   {
-      if (SerialVersion.version == SerialVersion.LEGACY)
-         serialVersionUID = 141000;
-      else
-         serialVersionUID = 1;
-   }
+   private static final long serialVersionUID = 1;
 
    /**
     * @serialField actions String the actions string.

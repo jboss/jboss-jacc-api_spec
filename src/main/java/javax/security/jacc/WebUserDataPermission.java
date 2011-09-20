@@ -30,8 +30,6 @@ import java.security.Permission;
 import java.util.TreeSet;
 import javax.servlet.http.HttpServletRequest;
 
-import org.jboss.util.id.SerialVersion;
-
 /**
  * <p>
  * Class for Servlet Web user data permissions. A WebUserDataPermission is a named permission and has actions.
@@ -51,14 +49,7 @@ import org.jboss.util.id.SerialVersion;
 public final class WebUserDataPermission extends Permission implements Serializable
 {
    /** @since 4.0.2 */
-   private static final long serialVersionUID;
-   static
-   {
-      if (SerialVersion.version == SerialVersion.LEGACY)
-         serialVersionUID = 141000;
-      else
-         serialVersionUID = 1;
-   }
+   private static final long serialVersionUID = 1;
 
    /**
     * @serialField actions String the actions string.

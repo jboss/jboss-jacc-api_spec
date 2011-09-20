@@ -24,8 +24,6 @@ package javax.security.jacc;
 import java.io.Serializable;
 import java.security.Permission;
 
-import org.jboss.util.id.SerialVersion;
-
 /**
  * <p>
  * Class for EJB <i>isCallerInRole (String reference)</i> permissions. An EJBRoleRefPermission is a named permission and
@@ -53,14 +51,7 @@ import org.jboss.util.id.SerialVersion;
  */
 public final class EJBRoleRefPermission extends Permission implements Serializable
 {
-   private static final long serialVersionUID;
-   static
-   {
-      if (SerialVersion.version == SerialVersion.LEGACY)
-         serialVersionUID = 141000;
-      else
-         serialVersionUID = 1;
-   }
+   private static final long serialVersionUID = 1;
 
    /** The security-role-ref/role-link value */
    private String actions;
