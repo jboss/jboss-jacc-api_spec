@@ -88,59 +88,62 @@ public abstract class PolicyConfigurationFactory
       if (sm != null)
          sm.checkPermission(new SecurityPermission("setPolicy"));
 
-      if (factory == null)
+      synchronized (PolicyConfigurationFactory.class)
       {
-         String factoryName = null;
-         Class<?> clazz = null;
-         try
-         {
-            LoadAction action = new LoadAction();
-            try
-            {
-               clazz = AccessController.doPrivileged(action);
-               factoryName = action.getName();
-            }
-            catch (PrivilegedActionException ex)
-            {
-               factoryName = action.getName();
-               Exception e = ex.getException();
-               if (e instanceof ClassNotFoundException)
-                  throw (ClassNotFoundException) e;
-               else
-                  throw new PolicyContextException("Failure during load of class: " + action.getName(), e);
-            }
-            factory = (PolicyConfigurationFactory) clazz.newInstance();
-         }
-         catch (ClassNotFoundException e)
-         {
-            String msg = "Failed to find PolicyConfigurationFactory : " + factoryName;
-            throw new ClassNotFoundException(msg, e);
-         }
-         catch (IllegalAccessException e)
-         {
-            String msg = "Unable to access class : " + factoryName;
-            throw new PolicyContextException(msg, e);
-         }
-         catch (InstantiationException e)
-         {
-            String msg = "Failed to create instance of: " + factoryName;
-            throw new PolicyContextException(msg, e);
-         }
-         catch (ClassCastException e)
-         {
-            StringBuffer msg = new StringBuffer(factoryName + " Is not a PolicyConfigurationFactory, ");
-            msg.append("PCF.class.CL: " + PolicyConfigurationFactory.class.getClassLoader());
-            msg.append("\nPCF.class.CS: " + PolicyConfigurationFactory.class.getProtectionDomain().getCodeSource());
-            msg.append("\nPCF.class.hash: " + System.identityHashCode(PolicyConfigurationFactory.class));
-            msg.append("\nclazz.CL: " + clazz.getClassLoader());
-            msg.append("\nclazz.CS: " + clazz.getProtectionDomain().getCodeSource());
-            msg.append("\nclazz.super.CL: " + clazz.getSuperclass().getClassLoader());
-            msg.append("\nclazz.super.CS: " + clazz.getSuperclass().getProtectionDomain().getCodeSource());
-            msg.append("\nclazz.super.hash: " + System.identityHashCode(clazz.getSuperclass()));
-            ClassCastException cce = new ClassCastException(msg.toString());
-            cce.initCause(e);
-            throw cce;
-         }
+    	  if (factory == null)
+    	  {
+    		  String factoryName = null;
+    		  Class<?> clazz = null;
+    		  try
+    		  {
+    			  LoadAction action = new LoadAction();
+    			  try
+    			  {
+    				  clazz = AccessController.doPrivileged(action);
+    				  factoryName = action.getName();
+    			  }
+    			  catch (PrivilegedActionException ex)
+    			  {
+    				  factoryName = action.getName();
+    				  Exception e = ex.getException();
+    				  if (e instanceof ClassNotFoundException)
+    					  throw (ClassNotFoundException) e;
+    				  else
+    					  throw new PolicyContextException("Failure during load of class: " + factoryName, e);
+    			  }
+    			  factory = (PolicyConfigurationFactory) clazz.newInstance();
+    		  }
+    		  catch (ClassNotFoundException e)
+    		  {
+    			  String msg = "Failed to find PolicyConfigurationFactory : " + factoryName;
+    			  throw new ClassNotFoundException(msg, e);
+    		  }
+    		  catch (IllegalAccessException e)
+    		  {
+    			  String msg = "Unable to access class : " + factoryName;
+    			  throw new PolicyContextException(msg, e);
+    		  }
+    		  catch (InstantiationException e)
+    		  {
+    			  String msg = "Failed to create instance of: " + factoryName;
+    			  throw new PolicyContextException(msg, e);
+    		  }
+    		  catch (ClassCastException e)
+    		  {
+    			  StringBuffer msg = new StringBuffer(factoryName + " Is not a PolicyConfigurationFactory, ");
+    			  msg.append("PCF.class.CL: " + PolicyConfigurationFactory.class.getClassLoader());
+    			  msg.append("\nPCF.class.CS: " + PolicyConfigurationFactory.class.getProtectionDomain().getCodeSource());
+    			  msg.append("\nPCF.class.hash: " + System.identityHashCode(PolicyConfigurationFactory.class));
+    			  msg.append("\nclazz.CL: " + clazz.getClassLoader());
+    			  msg.append("\nclazz.CS: " + clazz.getProtectionDomain().getCodeSource());
+    			  msg.append("\nclazz.super.CL: " + clazz.getSuperclass().getClassLoader());
+    			  msg.append("\nclazz.super.CS: " + clazz.getSuperclass().getProtectionDomain().getCodeSource());
+    			  msg.append("\nclazz.super.hash: " + System.identityHashCode(clazz.getSuperclass()));
+    			  ClassCastException cce = new ClassCastException(msg.toString());
+    			  cce.initCause(e);
+    			  throw cce;
+    		  }
+    	  }
       }
       return factory;
    }
@@ -234,9 +237,26 @@ public abstract class PolicyConfigurationFactory
             // Use the default factory implementation.
             name = DEFAULT_FACTORY_NAME;
          }
-         ClassLoader loader = Thread.currentThread().getContextClassLoader();
-         Class<?> factoryClass = loader.loadClass(name);
-         return factoryClass;
+         ClassLoader[] cls = new ClassLoader[] { PolicyConfigurationFactory.class.getClassLoader(), // JACC classes (not always on TCCL [modular env])
+        		 Thread.currentThread().getContextClassLoader(), // User defined classes
+                 ClassLoader.getSystemClassLoader() // System loader, usually has app class path
+         };
+         ClassNotFoundException e = null;
+         for (ClassLoader cl : cls)
+         {
+             if (cl == null)
+                 continue;
+
+             try
+             {
+                 return cl.loadClass(name);
+             }
+             catch (ClassNotFoundException ce)
+             {
+                 e = ce;
+             }
+         }
+         throw e != null ? e : new ClassNotFoundException(name);
       }
    }
 }
