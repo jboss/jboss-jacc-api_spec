@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jboss</groupId>
     <artifactId>jboss-parent</artifactId>
-    <version>8</version>
+    <version>9</version>
   </parent>
   
   <groupId>org.jboss.spec.javax.security.jacc</groupId>
@@ -14,7 +14,7 @@
   <version>1.0.2-SNAPSHOT</version>
   <packaging>jar</packaging>
   <name>JACC 1.4 API</name>
-  <description>The Java Authorization Contract for Containers 1.4 API classes</description>
+  <description>JSR-000115 Java(TM) Authorization Contract for Containers API</description>
 
   <licenses>
     <license>
@@ -35,6 +35,38 @@
     <url>https://github.com/jboss/jboss-jacc-api_spec</url>
   </scm>
   
+  <build>
+    <plugins>
+      <!-- Include LICENSE.txt in the META-INF directory -->
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-resources-plugin</artifactId>
+        <executions>
+          <execution>
+            <id>copy-resources</id>
+            <phase>process-resources</phase>
+            <goals>
+              <goal>copy-resources</goal>
+            </goals>
+            <configuration>
+              <resources>          
+                <resource>
+                  <directory>${basedir}</directory>
+                  <includes>
+                    <include>LICENSE</include>
+                    <include>README</include>
+                  </includes>
+                </resource>
+              </resources>              
+              <outputDirectory>${project.build.outputDirectory}/META-INF</outputDirectory>
+            </configuration>            
+          </execution>
+        </executions>
+      </plugin>
+
+    </plugins>
+  </build>
+
   <dependencies>
     <dependency>
       <groupId>org.jboss.spec.javax.servlet</groupId>
