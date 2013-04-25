@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jboss</groupId>
     <artifactId>jboss-parent</artifactId>
-    <version>9</version>
+    <version>10</version>
   </parent>
   
   <groupId>org.jboss.spec.javax.security.jacc</groupId>
@@ -125,8 +125,8 @@
   <dependencies>
     <dependency>
       <groupId>org.jboss.spec.javax.servlet</groupId>
-      <artifactId>jboss-servlet-api_3.0_spec</artifactId>
-      <version>1.0.1.Final</version>
+      <artifactId>jboss-servlet-api_3.1_spec</artifactId>
+      <version>1.0.0.Alpha1</version>
     </dependency>
     <dependency>
       <groupId>junit</groupId>
