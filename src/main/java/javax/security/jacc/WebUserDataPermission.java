@@ -274,14 +274,16 @@ public final class WebUserDataPermission extends Permission implements Serializa
       String actions = null;
       if (httpMethodsString != null)
       {
-         if (transportType != null)
-            actions = httpMethodsString + ":" + transportType;
-         else
-            actions = httpMethodsString;
+         actions = httpMethodsString;
       }
-      else if (transportType != null)
+      else if (httpExceptionString != null)
       {
-         actions = ":" + transportType;
+         actions = "!" + httpExceptionString;
+      }
+
+      if (transportType != null)
+      {
+         actions = (actions == null) ? ":" + transportType : actions + ":" + transportType;
       }
       return actions;
    }
@@ -407,8 +409,10 @@ public final class WebUserDataPermission extends Permission implements Serializa
          }
       }
       boolean exceptionListNeeded = actions != null && actions.startsWith("!");
+      if (exceptionListNeeded)
+         actions = actions.substring(1);
 
-      Object[] methodInfo = WebResourcePermission.canonicalMethods(actions);
+       Object[] methodInfo = WebResourcePermission.canonicalMethods(actions);
       if (exceptionListNeeded)
       {
          this.httpExceptionList = (TreeSet<String>) methodInfo[0];
