@@ -10,10 +10,10 @@
   </parent>
   
   <groupId>org.jboss.spec.javax.security.jacc</groupId>
-  <artifactId>jboss-jacc-api_1.4_spec</artifactId>
-  <version>1.0.3.Final-SNAPSHOT</version>
+  <artifactId>jboss-jacc-api_1.5_spec</artifactId>
+  <version>1.0.0.Final-SNAPSHOT</version>
   <packaging>jar</packaging>
-  <name>JACC 1.4 API</name>
+  <name>JACC 1.5 API</name>
   <description>JSR-000115 Java(TM) Authorization Contract for Containers API</description>
 
   <licenses>
@@ -87,10 +87,10 @@
           <instructions>
             <Specification-Title>JSR-000115 Java(TM) Authorization Contract for Containers</Specification-Title>
             <Specification-Vendor>Oracle</Specification-Vendor>
-            <Specification-Version>1.4</Specification-Version>
+            <Specification-Version>1.5</Specification-Version>
             <!-- Set the package version to match the spec version -->
             <Export-Package>
-              javax.security.jacc*;version=1.4
+              javax.security.jacc*;version=1.5
             </Export-Package>
           </instructions>
         </configuration>
@@ -114,7 +114,7 @@
             <manifestEntries>
               <Specification-Title>JSR-000115 Java(TM) Authorization Contract for Containers</Specification-Title>
               <Specification-Vendor>Oracle</Specification-Vendor>
-              <Specification-Version>1.4</Specification-Version>
+              <Specification-Version>1.5</Specification-Version>
             </manifestEntries>
           </archive>
         </configuration>
