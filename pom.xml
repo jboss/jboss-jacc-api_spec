@@ -11,7 +11,7 @@
   
   <groupId>org.jboss.spec.javax.security.jacc</groupId>
   <artifactId>jboss-jacc-api_1.4_spec</artifactId>
-  <version>1.0.3.Final-SNAPSHOT</version>
+  <version>1.0.3.Final</version>
   <packaging>jar</packaging>
   <name>JACC 1.4 API</name>
   <description>JSR-000115 Java(TM) Authorization Contract for Containers API</description>
