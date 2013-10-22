@@ -240,7 +240,11 @@ public final class WebResourcePermission extends Permission implements Serializa
    @Override
    public String getActions()
    {
-      return this.httpMethodsString;
+      if (this.httpMethodsString != null)
+        return this.httpMethodsString;
+      else if (this.httpExceptionString != null)
+        return "!" + this.httpExceptionString;
+      return null;
    }
 
    /**
