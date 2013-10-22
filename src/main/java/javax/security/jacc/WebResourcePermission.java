@@ -436,9 +436,10 @@ public final class WebResourcePermission extends Permission implements Serializa
       if (onenull)
          return false;
 
-      for (String httpMethod : matchingExceptionList)
+      // matchingExceptionList must be a superset of myExceptionList
+      for (String httpMethod : myExceptionList)
       {
-         if (!myExceptionList.contains(httpMethod))
+         if (!matchingExceptionList.contains(httpMethod))
             return false;
       }
       return true;
