@@ -136,7 +136,12 @@ public final class WebUserDataPermission extends Permission implements Serializa
     * <p>
     * An empty string HTTPMethodSpec is a shorthand for a List containing all the possible HTTP methods.
     * </p>
-    * 
+    *
+    * <p>
+    * If the HTTPMethodSpec contains an HTTPMethodExceptionList (i.e., it begins with an exclamation point),the
+    * permission pertains to all methods except those  occuring in the exception list.
+    * </p>
+    *
     * <p>
     * An actions string without a transportType is a shorthand for a actions string with the value "NONE" as its
     * TransportType.
@@ -253,17 +258,19 @@ public final class WebUserDataPermission extends Permission implements Serializa
     * </p>
     * 
     * <p>
-    * If the permission's HTTP methods include the entire HTTP method set and the permission's transport type is
-    * "INTEGRAL" or "CONFIDENTIAL", the HTTP methods shall be represented in the canonical form by an empty string
-    * HTTPMethodSpec. If the permission's HTTP methods include the entire HTTP method set and the permission's transport
-    * type is not "INTEGRAL"or "CONFIDENTIAL", the canonical actions value shall be the null value.
+    * If the permission’s HTTP methods correspond to the entire HTTP method set and the permission’s transport
+    * type is “INTEGRAL” or “CONFIDENTIAL”, the HTTP methods shall be represented in the canonical form by an
+    * emptyString HTTPMethodSpec. If the permission’s HTTP methods correspond to the entire HTTP method set, and the
+    * permission’s transport type is not “INTEGRAL”or “CONFIDENTIAL”, the canonical actions value shall be the null
+    * value.
     * </p>
     * 
     * <p>
-    * If the permission's methods do not include the entire HTTP method set, duplicates must be eliminated and the
-    * remaining elements must be sorted into ascending lexical order. The resulting HTTPMethodList must be included in
-    * the canonical form, and if the permission's transport type is not "INTEGRAL" or "CONFIDENTIAL", the canonical
-    * actions value must be exactly the resulting HTTPMethodList.
+    * If the permission’s methods do not correspond to the entire HTTP method set, duplicates must be eliminated and the
+    * remaining elements must be ordered such that the predefined methods preceed the extension methods, and such that
+    * within each method classification the corresponding methods occur in ascending lexical order. The resulting
+    * (non-emptyString) HTTPMethodSpec must be included in the canonical form, and if the permission’s transport type is
+    * not “INTEGRAL” or “CONFIDENTIAL”, the canonical actions value must be exactly the resulting HTTPMethodSpec.
     * </p>
     * 
     * @return a String containing the canonicalized actions of this WebUserDataPermission (or the null value).

@@ -12,7 +12,7 @@ import java.security.Permission;
  * <p>
  * The name of an WebRoleRefPermission (also referred to as the target name) identifies a Web resource by the servlet
  * name (in the deployment descriptor corresponding to the component from which the call to <i>isUserInRole (String
- * reference)</i> is being made).
+ * reference)</i> is being made.
  * </p>
  * 
  * <p>

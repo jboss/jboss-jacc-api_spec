@@ -417,7 +417,7 @@ public interface PolicyConfiguration
     *           - a reference to a different PolicyConfiguration than this PolicyConfiguration. The relationship formed
     *           by this method is symmetric, transitive and idempotent. If the argument PolicyConfiguration does not
     *           have a different Policy context identifier than this PolicyConfiguration no relationship is formed, and
-    *           an IllegalArgumentException is thrown.
+    *           an exception, as described below, is thrown.
     * 
     * @throws SecurityException
     *            - if called by an AccessControlContext that has not been granted the “setPolicy” SecurityPermission.
