@@ -15,8 +15,11 @@ package javax.security.jacc;
  * 
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
- * @see {@link Exception}, {@link PolicyConfiguration}, {@link PolicyConfigurationFactory}, {@link PolicyContext},
- *      {@link PolicyContextHandler}
+ * @see java.lang.Exception
+ * @see PolicyConfiguration
+ * @see PolicyConfigurationFactory
+ * @see PolicyContext
+ * @see PolicyContextHandler
  */
 public class PolicyContextException extends Exception
 {

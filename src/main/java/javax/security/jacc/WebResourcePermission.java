@@ -6,7 +6,6 @@ import java.io.ObjectOutputStream;
 import java.io.ObjectStreamField;
 import java.io.Serializable;
 import java.security.Permission;
-import java.util.StringTokenizer;
 import java.util.TreeSet;
 
 import javax.servlet.http.HttpServletRequest;
@@ -28,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
- * @see {@link Permission}
+ * @see java.security.Permission
  */
 @SuppressWarnings({"unchecked", "unused"})
 public final class WebResourcePermission extends Permission implements Serializable
@@ -291,7 +290,7 @@ public final class WebResourcePermission extends Permission implements Serializa
     * </p>
     * 
     * <p>
-    * URLPattern matching is performed using the <i>Servlet matching</i> rules where two URL patterns match if they are
+    * URLPattern matching is performed using the <i>Servlet matching rules</i> where two URL patterns match if they are
     * related as follows:
     * <ul>
     * <li>their pattern values are String equivalent, or</li>

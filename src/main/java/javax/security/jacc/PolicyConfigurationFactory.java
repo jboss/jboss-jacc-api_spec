@@ -21,7 +21,9 @@ import java.security.PrivilegedActionException;
  * 
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
- * @see {@link Permission}, {@link PolicyConfiguration}, {@link PolicyContextException}
+ * @see java.security.Permission
+ * @see PolicyConfiguration
+ * @see PolicyContextException
  */
 public abstract class PolicyConfigurationFactory
 {

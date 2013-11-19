@@ -53,7 +53,7 @@ import java.security.SecurityPermission;
  * 
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
- * @see {@link PolicyContextHandler}
+ * @see PolicyContextHandler
  */
 public final class PolicyContext
 {
@@ -98,7 +98,7 @@ public final class PolicyContext
       if (sm != null)
          sm.checkPermission(getPolicy);
 
-      PolicyContextHandler handler = (PolicyContextHandler) handlerMap.get(key);
+      PolicyContextHandler handler = handlerMap.get(key);
       if (handler.supports(key) == false)
          throw new IllegalArgumentException("PolicyContextHandler does not support key=" + key);
       Object data = handlerDataLocal.get();
@@ -121,7 +121,7 @@ public final class PolicyContext
     */
    public static String getContextID()
    {
-      String contextID = (String) contextIDLocal.get();
+      String contextID = contextIDLocal.get();
       return contextID;
    }
 
@@ -133,6 +133,9 @@ public final class PolicyContext
     * 
     * @return A {@code Set}, the elements of which, are the {@code String} key values that identify the handlers that
     *         have been registered and therefore may be activated on the {@code PolicyContext}.
+    * @throws SecurityException
+    *           - if the calling {@code AccessControlContext} is not authorized by the container to call this method.
+    *           Containers may choose to authorize calls to this methods by any {@code AccessControlContext}.
     */
    @SuppressWarnings("unchecked")
    public static Set getHandlerKeys()

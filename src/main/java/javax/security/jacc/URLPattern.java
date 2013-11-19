@@ -8,7 +8,8 @@ package javax.security.jacc;
  * 
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
- * @see {@link WebResourcePermission}, {@link WebUserDataPermission}
+ * @see WebResourcePermission
+ * @see WebUserDataPermission
  */
 class URLPattern
 {
