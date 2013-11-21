@@ -27,7 +27,7 @@ import javax.servlet.http.HttpServletRequest;
  * 
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
- * @see {@link Permission}
+ * @see java.security.Permission
  */
 @SuppressWarnings({"unchecked", "unused"})
 public final class WebResourcePermission extends Permission implements Serializable

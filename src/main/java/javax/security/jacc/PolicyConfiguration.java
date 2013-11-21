@@ -185,9 +185,11 @@ import java.security.PermissionCollection;
  * 
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
- * @see {@link Permission}, {@link PermissionCollection}, {@link PolicyContextException},
- *      {@link PolicyConfigurationFactory}.
- */
+ * @see java.security.Permission
+ * @see java.security.PermissionCollection
+ * @see PolicyContextException
+ * @see PolicyConfigurationFactory
+  */
 public interface PolicyConfiguration
 {
    /**

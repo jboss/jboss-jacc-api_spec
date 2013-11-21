@@ -22,7 +22,7 @@ import javax.servlet.http.HttpServletRequest;
  * @author <a href="mailto:scott.stark@jboss.org">Scott Stark</a>
  * @author <a href="mailto:anil.saldhana@jboss.org">Anil Saldhana</a>
  * @author <a href="mailto:sguilhen@redhat.com">Stefan Guilhen</a>
- * @see {@link Permission}
+ * @see java.security.Permission
  */
 @SuppressWarnings({"unused", "unchecked"})
 public final class WebUserDataPermission extends Permission implements Serializable
