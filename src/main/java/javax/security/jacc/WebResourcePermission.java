@@ -322,7 +322,7 @@ public final class WebResourcePermission extends Permission implements Serializa
       if (implies == true)
       {
          if (this.httpExceptionList != null)
-            implies = matchExceptionList(this.httpExceptionList, perm.httpExceptionList);
+            implies = matchExceptionList(this.httpExceptionList, perm.httpMethods);
          // Check the http methods
          if (this.httpMethods != null && perm.httpMethods != null)
             implies = this.httpMethods.containsAll(perm.httpMethods);
@@ -442,7 +442,7 @@ public final class WebResourcePermission extends Permission implements Serializa
       // matchingExceptionList must be a superset of myExceptionList
       for (String httpMethod : myExceptionList)
       {
-         if (!matchingExceptionList.contains(httpMethod))
+         if (matchingExceptionList.contains(httpMethod))
             return false;
       }
       return true;
