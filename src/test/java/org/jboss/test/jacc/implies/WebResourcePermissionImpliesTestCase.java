@@ -58,24 +58,14 @@ public class WebResourcePermissionImpliesTestCase {
         assertTrue(w1.implies(w2));
         
         w1 = new WebResourcePermission("/", "!GET,POST");
-        w2 = new WebResourcePermission("/", "!GET,POST");
+        w2 = new WebResourcePermission("/", "PUT");
 
         assertTrue(w1.implies(w2));
 
         w1 = new WebResourcePermission("/", "!GET");
-        w2 = new WebResourcePermission("/", "!GET");
+        w2 = new WebResourcePermission("/", "POST");
 
         assertTrue(w1.implies(w2));
-
-        w1 = new WebResourcePermission("/", "!GET");
-        w2 = new WebResourcePermission("/", "!GET,POST");
-
-        assertTrue(w1.implies(w2));
-        assertFalse(w2.implies(w1));
         
-        w1 = new WebResourcePermission("/", "!GET");
-        w2 = new WebResourcePermission("/", (String)null);
-
-        assertFalse(w1.implies(w2));
     }
 }
