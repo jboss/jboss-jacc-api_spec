@@ -11,7 +11,7 @@
   
   <groupId>org.jboss.spec.javax.security.jacc</groupId>
   <artifactId>jboss-jacc-api_1.5_spec</artifactId>
-  <version>1.0.2.Final-SNAPSHOT</version>
+  <version>1.0.2.Final</version>
   <packaging>jar</packaging>
   <name>JACC 1.5 API</name>
   <description>JSR-000115 Java(TM) Authorization Contract for Containers API</description>
@@ -38,7 +38,7 @@
     <connection>scm:git:git@github.com:jboss/jboss-jacc-api_spec.git</connection>
     <developerConnection>scm:git:git@github.com:jboss/jboss-jacc-api_spec.git</developerConnection>
     <url>https://github.com/jboss/jboss-jacc-api_spec</url>
-    <tag>HEAD</tag>
+    <tag>jboss-jacc-api_1.5_spec-1.0.2.Final</tag>
   </scm>
   
   <build>
