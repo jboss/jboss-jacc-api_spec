@@ -6,7 +6,7 @@
   <parent>
     <groupId>org.jboss</groupId>
     <artifactId>jboss-parent</artifactId>
-    <version>10</version>
+    <version>25</version>
   </parent>
   
   <groupId>org.jboss.spec.javax.security.jacc</groupId>
@@ -15,6 +15,11 @@
   <packaging>jar</packaging>
   <name>JACC 1.5 API</name>
   <description>JSR-000115 Java(TM) Authorization Contract for Containers API</description>
+
+  <properties>
+    <maven.compiler.target>1.7</maven.compiler.target>
+    <maven.compiler.source>1.7</maven.compiler.source>
+  </properties>
 
   <licenses>
     <license>
@@ -83,6 +88,9 @@
             <manifest>
               <addDefaultSpecificationEntries>false</addDefaultSpecificationEntries>
             </manifest>
+            <manifestEntries>
+              <Automatic-Module-Name>beta.jboss.jacc.api_1_5</Automatic-Module-Name>
+            </manifestEntries>
           </archive>
           <instructions>
             <Specification-Title>JSR-000115 Java(TM) Authorization Contract for Containers</Specification-Title>
